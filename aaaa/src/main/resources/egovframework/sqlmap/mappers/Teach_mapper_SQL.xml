@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="space.mars.service.impl.TeachMapper">
+
+	<select id="selectSampleDataList" parameterType="map" resultType="egovMap">
+		/** teachMapper.selectSampleDataList **/
+		select testId, testTitle, testContent, testName, testDate, fileName
+		from egovtest.test
+		where 1=1
+		<if test="testName != null and testName != ''">
+			and testName = #{testName}
+		</if>
+		<if test="fileName != null and fileName != ''">
+			and fileName like concat('%',#{fileName},'%')
+		</if>
+	</select>
+	
+	
+	<insert id="insertData" parameterType="map">
+	/** teachMapper.insertData **/
+		<![CDATA[
+			INSERT INTO egovtest.test
+				( testId
+				  , testTitle
+				  , testContent
+				  , testName
+				  , testDate
+				  , fileName )
+			VALUES ( nextval(egovtest.sq_test)
+				  , #{testTitle}
+				  , null
+				  , #{testName}
+				  , #{testDate}
+				  , #{fileName} )
+		]]>
+	</insert>
+	
+	<update id="updateData" parameterType="map">
+	/** teachMapper.updateData **/
+		<![CDATA[
+			UPDATE egovtest.test
+			SET fileName = #{fileName}
+				, testName = #{testName}
+				, testTitle = #{testTitle}
+				, testDate = #{testDate}
+			WHERE testId = #{testId}
+		]]>
+	</update>
+	
+	<delete id="deleteData" parameterType="map">
+	/** teachMapper.deleteData **/
+		DELETE FROM egovtest.test 
+		where testId = #{testId}
+	</delete>
+	
+	<!-- <update id="deleteYnData" parameterType="map">
+	/** teachMapper.deleteYnData **/
+		<![CDATA[
+			UPDATE egovtest.test
+			SET use_yn = 'N'
+			WHERE data_id = #dataId#
+		]]>
+	</update> -->
+	
+</mapper>

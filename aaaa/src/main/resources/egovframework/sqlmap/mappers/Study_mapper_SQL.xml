@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="studyMapper">
+
+	<select id="selectSampleDataList" parameterType="map" resultType="egovMap">
+		/** studyMapper.selectSampleDataList **/
+		select last_nm, first_nm, data_id, use_yn
+		from cho.sample_data
+		where use_yn = 'Y'
+		<if test="lastNm != null and lastNm != ''">
+			and last_nm = #{lastNm}
+		</if>
+		<if test="firstNm != null and firstNm != ''">
+			and first_Nm like concat('%',#{firstNm},'%')
+		</if>
+	</select>
+	
+	<insert id="insertData" parameterType="map">
+		/** studyMapper.insertData **/
+		<![CDATA[
+			INSERT INTO cho.sample_data
+				( last_nm
+				  , first_Nm
+				  , data_id
+				  , use_yn )
+			VALUES ( #{lastNm}
+				  , #{firstNm}
+				  , nextval(cho.sq_sample_data)
+				  , 'Y' )
+		]]>
+	</insert>
+	
+	<update id="updateData" parameterType="map">
+		/** studyMapper.updateData **/
+		<![CDATA[
+			UPDATE cho.sample_data
+			SET last_nm = #{lastNm}
+				, first_Nm = #{firstNm}
+			WHERE data_id = #{dataId}
+		]]>
+	</update>
+	
+	<delete id="deleteData" parameterType="map">
+		/** studyMapper.deleteData **/
+		DELETE FROM cho.sample_data 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="dataId != null and dataId != ''">
+		and data_id = #{dataId}
+			</if>
+		</trim>
+	</delete>
+	
+	<update id="deleteYnData" parameterType="map">
+		/** studyMapper.deleteYnData **/
+		<![CDATA[
+			UPDATE cho.sample_data
+			SET use_yn = 'N'
+			WHERE data_id = #dataId#
+		]]>
+	</update>
+	
+</mapper>

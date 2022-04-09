@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="StudyDAO">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+
+	<select id="StudyDAO.selectSampleDataList" parameterClass="map" resultClass="egovMap">
+		select last_nm, first_nm, data_id, use_yn
+		from cho.sample_data
+		where use_yn = 'Y'
+		<isNotEmpty prepend="AND" property="lastNm">
+			last_nm = #lastNm#
+		</isNotEmpty>
+		<isNotEmpty property="firstNm">
+			and first_Nm like concat('%',#firstNm#,'%')
+		</isNotEmpty>
+	</select>
+	
+	<insert id="StudyDAO.insertData" parameterClass="map">
+		<![CDATA[
+			INSERT INTO cho.sample_data
+				( last_nm
+				  , first_Nm
+				  , data_id
+				  , use_yn )
+			VALUES ( #lastNm#
+				  , #firstNm#
+				  , nextval(cho.sq_sample_data)
+				  , 'Y' )
+		]]>
+	</insert>
+	
+	<update id="StudyDAO.updateData">
+		<![CDATA[
+			UPDATE cho.sample_data
+			SET last_nm = #lastNm#
+				, first_Nm = #firstNm#
+			WHERE data_id = #dataId#
+		]]>
+	</update>
+	
+	<delete id="StudyDAO.deleteData">
+		DELETE FROM cho.sample_data 
+		WHERE data_id = #dataId#
+	</delete>
+	
+	<update id="StudyDAO.deleteYnData">
+		<![CDATA[
+			UPDATE cho.sample_data
+			SET use_yn = 'N'
+			WHERE data_id = #dataId#
+		]]>
+	</update>
+</sqlMap>
