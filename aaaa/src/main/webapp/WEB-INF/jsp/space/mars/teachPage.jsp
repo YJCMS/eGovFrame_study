@@ -144,7 +144,7 @@
    			  },
    			  complete: function(com){
    				console.log("selectList::complete");
-   	    		$("#dataList tbody tr").on("click", function() {
+   	    		$("#dataList tbody tr").on("click", function(evt) {
    	    			//수정,삭제 data 셋팅
    	    			setEditData($(this));
    	    		});
@@ -170,7 +170,7 @@
     		if( data.resultCnt > 0 ){
     			//목록 1줄씩 추가
     			for ( let item of data.resultList) {
-    				str = '<tr data-id="'+item.testID+'"><td style="background-color: gray;">'+item.testTitle+'</td><td style="background-color: gray;">'+item.testName+'</td><td style="background-color: gray;">'+item.testDate+'</td><td style="background-color: gray;">'+item.fileName+'</td></tr>';
+    				str = '<tr data-id="'+item.testId+'"><td style="background-color: gray;">'+item.testTitle+'</td><td style="background-color: gray;">'+item.testName+'</td><td style="background-color: gray;">'+item.testDate+'</td><td style="background-color: gray;">'+item.fileName+'</td></tr>';
     				_tbody.append(str);
 				}
     			
@@ -250,13 +250,13 @@
    			var _testName = object.find('td:eq(1)').text();
    			var _testDate = object.find('td:eq(2)').text();
    			var _fileName = object.find('td:eq(3)').text();
-   			var _testId = object.attr("testId");
+   			var _testId = object.attr("data-id");
    			
 				$("#edit").find('[name="testTitle"]').val(_testTitle);
    	    		$("#edit").find('[name="testName"]').val(_testName);
    	    		$("#edit").find('[name="testDate"]').val(_testDate);
    	    		$("#edit").find('[name="fileName"]').val(_fileName);
-   	    		$("#edit").find('[name="testId"]').val(_dataId);
+   	    		$("#edit").find('[name="testId"]').val(_testId);
     	}
     	
     	function updateData(){
@@ -271,11 +271,11 @@
 				alert("이름을 입력하세요");
 				return false;
 			}
-			if( param.testTile == '' || param.testName.trim() == ''){
+			if( param.testTitle == '' || param.testTitle.trim() == ''){
 				alert("제목을 입력하세요");
 				return false;
 			}
-			if( param.testDate == '' || param.testName.trim() == ''){
+			if( param.testDate == '' || param.testDate.trim() == ''){
 				alert("날짜를 입력하세요");
 				return false;
 			}
@@ -301,11 +301,11 @@
    			  },
    			  complete: function(com){
    				console.log("selectList::complete");
-   				$("#edit").find('[name="testTitle"]').val(_testTitle);
-   	    		$("#edit").find('[name="testName"]').val(_testName);
-   	    		$("#edit").find('[name="testDate"]').val(_testDate);
-   	    		$("#edit").find('[name="fileName"]').val(_fileName);
-   	    		$("#edit").find('[name="testId"]').val(_testId);
+   				$("#edit").find('[name="testTitle"]').val('');
+   	    		$("#edit").find('[name="testName"]').val('');
+   	    		$("#edit").find('[name="testDate"]').val('');
+   	    		$("#edit").find('[name="fileName"]').val('');
+   	    		$("#edit").find('[name="testId"]').val('');
    			  },
    			  beforeSend : function(){
    				console.log("selectList::beforeSend");
@@ -339,11 +339,11 @@
    			  },
    			  complete: function(com){
    				console.log("deleteData::complete");
-   				$("#edit").find('[name="testTitle"]').val(_testTitle);
-   	    		$("#edit").find('[name="testName"]').val(_testName);
-   	    		$("#edit").find('[name="testDate"]').val(_testDate);
-   	    		$("#edit").find('[name="fileName"]').val(_fileName);
-   	    		$("#edit").find('[name="testId"]').val(_testId);
+   				$("#edit").find('[name="testTitle"]').val('');
+   	    		$("#edit").find('[name="testName"]').val('');
+   	    		$("#edit").find('[name="testDate"]').val('');
+   	    		$("#edit").find('[name="fileName"]').val('');
+   	    		$("#edit").find('[name="testId"]').val('');
    			  },
    			  beforeSend : function(){
    				console.log("deleteData::beforeSend");
